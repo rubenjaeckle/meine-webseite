@@ -791,6 +791,15 @@
             <input type="email" id="email" name="email"
                    placeholder="name@unternehmen.ch" required autocomplete="email" />
           </div>
+          <div class="field">
+            <label for="message">Nachricht (optional)</label>
+            <textarea id="message" name="message" rows="3"
+              placeholder="z.B. Wir sind ein Team von 20 Personen und suchen..."
+              style="width:100%;padding:.8rem 1rem;border:1.5px solid rgba(90,122,74,.25);border-radius:var(--radius-sm);font-size:.95rem;font-family:'Lato',sans-serif;background:var(--warm-white);color:var(--text);resize:vertical;outline:none;transition:border-color .2s,box-shadow .2s;"
+              onfocus="this.style.borderColor='var(--sage)';this.style.boxShadow='0 0 0 3px rgba(138,170,114,.15)'"
+              onblur="this.style.borderColor='rgba(90,122,74,.25)';this.style.boxShadow='none'"
+            ></textarea>
+          </div>
           <div class="consent">
             <input type="checkbox" id="consent" name="consent" required />
             <label for="consent" style="font-weight:400;color:var(--text-light)">
@@ -830,6 +839,7 @@
     e.preventDefault();
     const firstname = document.getElementById('firstname').value.trim();
     const email     = document.getElementById('email').value.trim();
+    const message   = document.getElementById('message').value.trim();
     const btn       = this.querySelector('.btn-submit');
     btn.textContent = 'Wird gesendet…';
     btn.disabled    = true;
@@ -843,6 +853,7 @@
           from_name:  'Office Relief Landingpage',
           name:       firstname,
           email:      email,
+          message:    message,
         }),
       });
       const data = await res.json();
