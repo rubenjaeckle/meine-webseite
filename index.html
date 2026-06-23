@@ -830,15 +830,30 @@
     e.preventDefault();
     const firstname = document.getElementById('firstname').value.trim();
     const email     = document.getElementById('email').value.trim();
+    const btn       = this.querySelector('.btn-submit');
+    btn.textContent = 'Wird gesendet…';
+    btn.disabled    = true;
     try {
-      await fetch('/api/lead', {
+      const res = await fetch('https://api.web3forms.com/submit', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ firstname, email }),
+        body: JSON.stringify({
+          access_key: '4a67d66b-ff7e-4fa6-93c0-bce2731b2fa3',
+          subject:    'Neuer Testzugang – Office Relief Über-Uns',
+          from_name:  'Office Relief Landingpage',
+          name:       firstname,
+          email:      email,
+        }),
       });
-    } catch (_) { /* Dev – kein Server nötig */ }
-    document.getElementById('successName').textContent = firstname;
-    document.getElementById('leadForm').style.display  = 'none';
+      const data = await res.json();
+      if (!data.success) throw new Error(data.message);
+    } catch (err) {
+      btn.textContent = 'Fehler – bitte nochmal versuchen';
+      btn.disabled    = false;
+      return;
+    }
+    document.getElementById('successName').textContent  = firstname;
+    document.getElementById('leadForm').style.display   = 'none';
     document.getElementById('formSuccess').style.display = 'block';
   });
 </script>
